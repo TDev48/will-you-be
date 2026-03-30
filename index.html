@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Milo 💚</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            /* Milo background */
+            background: 
+                linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+                url('https://images.unsplash.com/photo-1604908176997-4314b6f7c8a5') no-repeat center/cover;
+
+            color: white;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(0,0,0,0.6);
+            padding: 30px 20px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 350px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        }
+
+        h1 {
+            font-size: 22px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        #yesBtn {
+            background: #28a745;
+            color: white;
+        }
+
+        #noBtn {
+            background: #dc3545;
+            color: white;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Milo, will you be my girlfriend? 💖</h1>
+
+    <button id="yesBtn" class="btn" onclick="goToNext()">Yes 😍</button>
+    <button id="noBtn" class="btn">No 😢</button>
+</div>
+
+<script>
+    const noBtn = document.getElementById("noBtn");
+
+    function moveButton() {
+        let x = Math.random() * (window.innerWidth - 100);
+        let y = Math.random() * (window.innerHeight - 50);
+
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+    }
+
+    noBtn.addEventListener("touchstart", moveButton);
+    noBtn.addEventListener("mouseover", moveButton);
+    noBtn.addEventListener("click", moveButton);
+
+    function goToNext() {
+        window.location.href = "yes.html";
+    }
+</script>
+
+</body>
+</html>
