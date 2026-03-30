@@ -1,79 +1,99 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For Milo 💚</title>
+<title>Will You Be My Girlfriend?</title>
 
-    <style>
-        body {margin: 0;
+<style>
+body {
+  margin: 0;
   height: 100vh;
-  background: url("e2e3e6cb7e480043d3bd883aa75e5647.jpg") center/cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial;
+
+  /* 🌈 MILO BACKGROUND */
+  background-image: url("e2e3e6cb7e480043d3bd883aa75e5647.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-        .container {
-            text-align: center;
-            background: rgba(0,0,0,0.6);
-            padding: 30px 20px;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 350px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-        }
+.container {
+  text-align: center;
+  background: rgba(255,255,255,0.25);
+  padding: 30px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
 
-        h1 {
-            font-size: 22px;
-            margin-bottom: 30px;
-        }
+h1 {
+  color: white;
+  font-size: 28px;
+  text-shadow: 2px 2px 6px black;
+}
 
-        .btn {
-            padding: 12px 20px;
-            font-size: 16px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            margin: 10px;
-        }
+button {
+  padding: 12px 25px;
+  margin: 10px;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
 
-        #yesBtn {
-            background: #28a745;
-            color: white;
-        }
+#yesBtn {
+  background: #4CAF50;
+  color: white;
+}
 
-        #noBtn {
-            background: #dc3545;
-            color: white;
-            position: absolute;
-        }
-    </style>
+#noBtn {
+  background: #ff4d4d;
+  color: white;
+}
+
+button:hover {
+  transform: scale(1.1);
+}
+</style>
 </head>
 
 <body>
 
 <div class="container">
-    <h1>Milo, will you be my girlfriend? 💖</h1>
+  <h1>Will you be my girlfriend? 💖</h1>
 
-    <button id="yesBtn" class="btn" onclick="goToNext()">Yes 😍</button>
-    <button id="noBtn" class="btn">No 😢</button>
+  <button id="yesBtn" onclick="yes()">Yes 💕</button>
+  <button id="noBtn" onclick="noClick()">No 😢</button>
 </div>
 
 <script>
-    const noBtn = document.getElementById("noBtn");
+let noCount = 0;
 
-    function moveButton() {
-        let x = Math.random() * (window.innerWidth - 100);
-        let y = Math.random() * (window.innerHeight - 50);
+function yes() {
+  window.location.href = "yes.html";
+}
 
-        noBtn.style.left = x + "px";
-        noBtn.style.top = y + "px";
-    }
+function noClick() {
+  noCount++;
 
-    noBtn.addEventListener("touchstart", moveButton);
-    noBtn.addEventListener("mouseover", moveButton);
-    noBtn.addEventListener("click", moveButton);
+  if (noCount >= 4) {
+    document.body.innerHTML = `
+      <div style="text-align:center; padding-top:100px;">
+        <img src="your-image.jpg" style="width:250px;border-radius:20px;">
+        <h2 style="color:white; text-shadow:2px 2px 5px black;">
+          😂 Okay okay… I give up!
+        </h2>
+      </div>
+    `;
 
-    function goToNext() {
-        window.location.href = "yes.html";
-    }
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 5000);
+  }
+}
 </script>
 
 </body>
