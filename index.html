@@ -108,7 +108,7 @@ button {
 let noCount = 0;
 let yesScale = 1;
 
-/* 💥 FULL RESET (fixes all GitHub Pages bugs) */
+/* 💥 RESET */
 function resetGame() {
   noCount = 0;
   yesScale = 1;
@@ -120,11 +120,12 @@ function resetGame() {
 
   yesBtn.style.transform = "scale(1)";
 
+  // reset position near center
   noBtn.style.left = "60%";
   noBtn.style.top = "60%";
 }
 
-/* 🚀 Always reset properly on load */
+/* 🚀 Always reset */
 window.onload = resetGame;
 window.onpageshow = resetGame;
 
@@ -146,24 +147,26 @@ function moveNo() {
   const noBtn = document.getElementById("noBtn");
   const yesBtn = document.getElementById("yesBtn");
 
-  // 📱 Safe movement (never off-screen)
-  const maxX = window.innerWidth - 120;
-  const maxY = window.innerHeight - 120;
+  // 🎯 CONTROLLED MOVEMENT AREA (near center)
+  const centerX = window.innerWidth / 2;
+  const centerY = window.innerHeight / 2;
 
-  const x = Math.random() * maxX;
-  const y = Math.random() * maxY;
+  const radiusX = 150;  // 🔥 reduce this to control movement width
+  const radiusY = 120;  // 🔥 reduce this to control movement height
+
+  const x = centerX + (Math.random() - 0.5) * radiusX;
+  const y = centerY + (Math.random() - 0.5) * radiusY;
 
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
 
-  // 💖 YES grows on every NO click
+  // 💖 YES grows
   yesScale += 0.18;
-
   if (yesScale > 3) yesScale = 3;
 
   yesBtn.style.transform = `scale(${yesScale})`;
 
-  // 😂 show overlay after 5 NO clicks
+  // 😂 overlay after 3 clicks (you set this)
   if (noCount >= 3) {
     document.getElementById("overlay").style.display = "flex";
 
