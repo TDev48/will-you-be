@@ -38,6 +38,16 @@ h1 {
   font-size: 60px;
   font-weight: bold;
 }
+  <input id="nameInput" type="text" placeholder="Enter your name 💖"
+style="
+  padding: 15px;
+  border-radius: 20px;
+  border: none;
+  font-size: 20px;
+  margin-bottom: 20px;
+  width: 80%;
+  text-align: center;
+">
 
 /* 🔘 Buttons */
 button {
@@ -64,7 +74,9 @@ button {
   top: 60%;
   left: 60%;
 }
-
+  
+<div id="namesList" style="color:white; margin-top:20px;"></div>
+  
 /* 🎭 Overlay */
 #overlay {
   display: none;
@@ -103,8 +115,22 @@ button {
   <img src="1774912642938.png">
   <h2>ඕකනෙ බැරි ඉතින් කොරන්ට 😒</h2>
 </div>
-
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"></script>
 <script>
+const firebaseConfig = {
+  apiKey: "AIzaSyDn5le4hwFNS08_aQ6jpwADFGjaBp5o_3Q",
+  authDomain: "track-my-web.firebaseapp.com",
+  projectId: "track-my-web",
+  storageBucket: "track-my-web.firebasestorage.app",
+  messagingSenderId: "310006193143",
+  appId: "1:310006193143:web:50fd769e3852e942fd6cf2",
+  measurementId: "G-LBJDJE2F3P"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+  
 let noCount = 0;
 let yesScale = 1;
 
@@ -131,33 +157,43 @@ window.onpageshow = resetGame;
 
 function yes() {
 
-  // 🎉 confetti
+  const name = document.getElementById("nameInput").value;
+
+  if (!name) {
+    alert("Please enter your name 💖");
+    return;
+  }
+
+  // 💾 Save name to Firebase
+  db.ref("responses/users").push({
+    name: name,
+    answer: "YES",
+    time: new Date().toLocaleString()
+  });
+
+  // 🎉 Confetti
   confetti({
     particleCount: 200,
     spread: 100,
     origin: { y: 0.6 }
   });
 
-  // 📩 SEND TELEGRAM MESSAGE
-  fetch("https://api.telegram.org/bot7764980571:AAE3S4XB3JceFVyxh-L9t_HwTL7QnEae30s/sendMessage", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      chat_id: "7330082919",
-      text: "💖 She clicked YES on your website!"
-    })
-  });
-
-  // redirect
   setTimeout(() => {
     window.location.href = "yes.html";
   }, 1200);
 }
-
+  
 function moveNo() {
   noCount++;
+  const name = document.getElementById("nameInput").value;
+
+if (name) {
+  db.ref("responses/noUsers").push({
+    name: name,
+    answer: "NO",
+    time: new Date().toLocaleString()
+  });
+}
 
   const noBtn = document.getElementById("noBtn");
   const yesBtn = document.getElementById("yesBtn");
@@ -190,6 +226,17 @@ function moveNo() {
     }, 4000);
   }
 }
+  db.ref("responses/users").on("value", (snapshot) => {
+  const data = snapshot.val();
+  let html = "<h3>💖 People who said YES:</h3>";
+
+  for (let key in data) {
+    html += "<p>" + data[key].name + "</p>";
+  }
+
+  document.getElementById("namesList").innerHTML = html;
+});
+  
 </script>
 
 </body>
