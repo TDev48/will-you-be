@@ -40,7 +40,7 @@ h1 {
   font-size: 50px;
 }
 
-/* INPUT */
+/* ✅ INPUT */
 #nameInput {
   padding: 15px;
   border-radius: 20px;
@@ -59,6 +59,7 @@ button {
   cursor: pointer;
   font-size: 24px;
   margin: 10px;
+  transition: 0.2s;
 }
 
 #yesBtn {
@@ -102,13 +103,13 @@ button {
 <div class="container">
   <h1>Piyu💚 Will you be my girlfriend? 💖</h1>
 
-  <!-- ✅ INPUT CORRECT PLACE -->
+  <!-- ✅ CORRECT PLACE -->
   <input id="nameInput" type="text" placeholder="Enter your name 💖">
 
   <button id="yesBtn" onclick="yes()">Yes 💕</button>
   <button id="noBtn" onclick="moveNo()">No 😢</button>
 
-  <!-- ✅ SHOW NAMES -->
+  <!-- ✅ LIVE NAMES -->
   <div id="namesList"></div>
 </div>
 
@@ -121,7 +122,7 @@ button {
 const firebaseConfig = {
   apiKey: "AIzaSyDn5le4hwFNS08_aQ6jpwADFGjaBp5o_3Q",
   authDomain: "track-my-web.firebaseapp.com",
-  databaseURL: "https://track-my-web-default-rtdb.firebaseio.com/", // ✅ IMPORTANT
+  databaseURL: "https://track-my-web-default-rtdb.firebaseio.com/",
   projectId: "track-my-web"
 };
 
@@ -129,8 +130,8 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
 let noCount = 0;
-let yesScale = 1;
 
+/* ✅ YES */
 function yes() {
   const name = document.getElementById("nameInput").value;
 
@@ -152,6 +153,7 @@ function yes() {
   }, 1200);
 }
 
+/* ❌ NO */
 function moveNo() {
   noCount++;
 
@@ -167,8 +169,9 @@ function moveNo() {
 
   const btn = document.getElementById("noBtn");
 
-  const x = window.innerWidth / 2 + (Math.random() - 0.5) * 200;
-  const y = window.innerHeight / 2 + (Math.random() - 0.5) * 150;
+  // 🎯 SMALL MOVEMENT AREA
+  const x = window.innerWidth / 2 + (Math.random() - 0.5) * 150;
+  const y = window.innerHeight / 2 + (Math.random() - 0.5) * 120;
 
   btn.style.left = x + "px";
   btn.style.top = y + "px";
@@ -178,7 +181,7 @@ function moveNo() {
   }
 }
 
-/* ✅ SAFE LOAD NAMES */
+/* ✅ LOAD NAMES SAFELY */
 db.ref("responses/users").on("value", (snapshot) => {
   const data = snapshot.val();
   let html = "<h3>💖 People who said YES:</h3>";
@@ -187,6 +190,8 @@ db.ref("responses/users").on("value", (snapshot) => {
     for (let key in data) {
       html += "<p>" + data[key].name + "</p>";
     }
+  } else {
+    html += "<p>No responses yet 😢</p>";
   }
 
   document.getElementById("namesList").innerHTML = html;
