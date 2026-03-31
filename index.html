@@ -5,10 +5,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-<!-- ✅ Firebase -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"></script>
-
 <style>
 body {
   margin: 0;
@@ -20,6 +16,7 @@ body {
   background-position: center;
 }
 
+/* 💖 Container */
 .container {
   text-align: center;
   position: absolute;
@@ -27,7 +24,7 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   background: rgba(255,255,255,0.25);
-  padding: 60px;
+  padding: 70px;
   border-radius: 30px;
   backdrop-filter: blur(10px);
   width: 80%;
@@ -40,18 +37,7 @@ h1 {
   font-size: 50px;
 }
 
-/* ✅ INPUT */
-#nameInput {
-  padding: 15px;
-  border-radius: 20px;
-  border: none;
-  font-size: 20px;
-  margin-bottom: 20px;
-  width: 80%;
-  text-align: center;
-}
-
-/* BUTTONS */
+/* 🔘 Buttons */
 button {
   padding: 18px 40px;
   border: none;
@@ -59,7 +45,7 @@ button {
   cursor: pointer;
   font-size: 24px;
   margin: 10px;
-  transition: 0.2s;
+  transition: transform 0.2s ease;
 }
 
 #yesBtn {
@@ -71,11 +57,11 @@ button {
   background: #ff4d4d;
   color: white;
   position: absolute;
-  top: 60%;
+  top: 65%;
   left: 60%;
 }
 
-/* OVERLAY */
+/* 🎭 Overlay */
 #overlay {
   display: none;
   position: fixed;
@@ -88,12 +74,7 @@ button {
   align-items: center;
   flex-direction: column;
   color: white;
-}
-
-/* NAMES LIST */
-#namesList {
-  color: white;
-  margin-top: 20px;
+  z-index: 999;
 }
 </style>
 </head>
@@ -103,14 +84,8 @@ button {
 <div class="container">
   <h1>Piyu💚 Will you be my girlfriend? 💖</h1>
 
-  <!-- ✅ CORRECT PLACE -->
-  <input id="nameInput" type="text" placeholder="Enter your name 💖">
-
   <button id="yesBtn" onclick="yes()">Yes 💕</button>
   <button id="noBtn" onclick="moveNo()">No 😢</button>
-
-  <!-- ✅ LIVE NAMES -->
-  <div id="namesList"></div>
 </div>
 
 <div id="overlay">
@@ -119,83 +94,78 @@ button {
 </div>
 
 <script>
-const firebaseConfig = {
-  apiKey: "AIzaSyDn5le4hwFNS08_aQ6jpwADFGjaBp5o_3Q",
-  authDomain: "track-my-web.firebaseapp.com",
-  databaseURL: "https://track-my-web-default-rtdb.firebaseio.com/",
-  projectId: "track-my-web"
-};
-
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
-
 let noCount = 0;
+let yesScale = 1;
 
-/* ✅ YES */
+/* 🔁 Reset everything properly */
+function resetGame() {
+  noCount = 0;
+  yesScale = 1;
+
+  document.getElementById("overlay").style.display = "none";
+
+  const yesBtn = document.getElementById("yesBtn");
+  const noBtn = document.getElementById("noBtn");
+
+  yesBtn.style.transform = "scale(1)";
+
+  // reset NO button position
+  noBtn.style.left = "60%";
+  noBtn.style.top = "65%";
+}
+
+/* ✅ Always reset on load */
+window.onload = resetGame;
+window.onpageshow = resetGame;
+
+/* 💖 YES CLICK */
 function yes() {
-  const name = document.getElementById("nameInput").value;
-
-  if (!name) {
-    alert("Enter your name 💖");
-    return;
-  }
-
-  db.ref("responses/users").push({
-    name: name,
-    answer: "YES",
-    time: new Date().toLocaleString()
+  confetti({
+    particleCount: 200,
+    spread: 100,
+    origin: { y: 0.6 }
   });
-
-  confetti({ particleCount: 200, spread: 100 });
 
   setTimeout(() => {
     window.location.href = "yes.html";
   }, 1200);
 }
 
-/* ❌ NO */
+/* 😢 NO CLICK */
 function moveNo() {
   noCount++;
 
-  const name = document.getElementById("nameInput").value;
+  const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.getElementById("yesBtn");
 
-  if (name) {
-    db.ref("responses/noUsers").push({
-      name: name,
-      answer: "NO",
-      time: new Date().toLocaleString()
-    });
-  }
+  // 🎯 Small controlled movement (NEVER disappears)
+  const centerX = window.innerWidth / 2;
+  const centerY = window.innerHeight / 2;
 
-  const btn = document.getElementById("noBtn");
+  const radiusX = 120;
+  const radiusY = 100;
 
-  // 🎯 SMALL MOVEMENT AREA
-  const x = window.innerWidth / 2 + (Math.random() - 0.5) * 150;
-  const y = window.innerHeight / 2 + (Math.random() - 0.5) * 120;
+  const x = centerX + (Math.random() - 0.5) * radiusX;
+  const y = centerY + (Math.random() - 0.5) * radiusY;
 
-  btn.style.left = x + "px";
-  btn.style.top = y + "px";
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
 
-  if (noCount >= 3) {
+  // 💖 YES grows
+  yesScale += 0.2;
+  if (yesScale > 3) yesScale = 3;
+
+  yesBtn.style.transform = `scale(${yesScale})`;
+
+  // 🎭 Show overlay after 4 clicks
+  if (noCount >= 4) {
     document.getElementById("overlay").style.display = "flex";
+
+    setTimeout(() => {
+      resetGame();
+    }, 4000);
   }
 }
-
-/* ✅ LOAD NAMES SAFELY */
-db.ref("responses/users").on("value", (snapshot) => {
-  const data = snapshot.val();
-  let html = "<h3>💖 People who said YES:</h3>";
-
-  if (data) {
-    for (let key in data) {
-      html += "<p>" + data[key].name + "</p>";
-    }
-  } else {
-    html += "<p>No responses yet 😢</p>";
-  }
-
-  document.getElementById("namesList").innerHTML = html;
-});
 </script>
 
 </body>
