@@ -130,12 +130,27 @@ window.onload = resetGame;
 window.onpageshow = resetGame;
 
 function yes() {
+
+  // 🎉 confetti
   confetti({
     particleCount: 200,
     spread: 100,
     origin: { y: 0.6 }
   });
 
+  // 📩 SEND TELEGRAM MESSAGE
+  fetch("https://api.telegram.org/botYOUR_BOT_TOKEN/sendMessage", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      chat_id: "YOUR_CHAT_ID",
+      text: "💖 She clicked YES on your website!"
+    })
+  });
+
+  // redirect
   setTimeout(() => {
     window.location.href = "yes.html";
   }, 1200);
