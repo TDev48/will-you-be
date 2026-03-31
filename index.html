@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Will You Be My Girlfriend?</title>
+<title>Piyu💚 Will You Be My Girlfriend?</title>
 
-<!-- 🎉 Confetti Library -->
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <style>
@@ -12,25 +11,22 @@ body {
   height: 100vh;
   overflow: hidden;
   font-family: Arial;
-
   background-image: url("e2e3e6cb7e480043d3bd883aa75e5647.jpg");
   background-size: cover;
   background-position: center;
 }
 
-/* 💖 Center box */
+/* 💖 Main box */
 .container {
   text-align: center;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-
   background: rgba(255,255,255,0.25);
   padding: 80px;
   border-radius: 30px;
   backdrop-filter: blur(10px);
-
   width: 80%;
   max-width: 700px;
 }
@@ -50,21 +46,21 @@ button {
   cursor: pointer;
   font-size: 30px;
   margin: 15px;
+  transition: transform 0.3s ease;
 }
 
 #yesBtn {
   background: #4CAF50;
   color: white;
+  transform-origin: center;
 }
 
-/* 🚨 IMPORTANT: No button fixed + visible */
 #noBtn {
   background: #ff4d4d;
   color: white;
   position: absolute;
   top: 60%;
   left: 60%;
-  transition: 0.2s;
 }
 
 /* 🎭 Overlay */
@@ -84,43 +80,33 @@ button {
   text-align: center;
   z-index: 999;
 }
-
-#overlay img {
-  width: 250px;
-  border-radius: 20px;
-}
 </style>
 </head>
 
 <body>
 
 <div class="container">
-  <h1>Will you be my girlfriend? 💖</h1>
+  <h1>Piyu💚 Will you be my girlfriend? 💖</h1>
 
   <button id="yesBtn" onclick="yes()">Yes 💕</button>
   <button id="noBtn" onclick="moveNo()">No 😢</button>
 </div>
 
-<!-- 🎭 Overlay -->
 <div id="overlay">
-  <img src="1774912642938.png">
+  <img src="1774912642938.png" width="250">
   <h2>ඕකනෙ බැරි ඉතින් කොරන්ට 😒</h2>
 </div>
 
 <script>
 let noCount = 0;
+let yesScale = 1;
 
 function yes() {
-  // 🎉 Confetti explosion
   confetti({
     particleCount: 200,
     spread: 100,
     origin: { y: 0.6 }
   });
-
-  setTimeout(() => {
-    confetti({ particleCount: 150, spread: 120, origin: { y: 0.6 } });
-  }, 300);
 
   setTimeout(() => {
     window.location.href = "yes.html";
@@ -130,26 +116,36 @@ function yes() {
 function moveNo() {
   noCount++;
 
-  const btn = document.getElementById("noBtn");
+  const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.getElementById("yesBtn");
 
-  // 🚨 safe screen boundaries (prevents disappearing)
+  // 🚨 Move NO button safely
   const maxX = window.innerWidth - 120;
   const maxY = window.innerHeight - 120;
 
   const x = Math.random() * maxX;
   const y = Math.random() * maxY;
 
-  btn.style.left = x + "px";
-  btn.style.top = y + "px";
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
 
-  // 🎭 show overlay after 4 clicks
-  if (noCount >= 4) {
+  // 💖 YES button grows each time NO is clicked
+  yesScale += 0.15;
+  yesBtn.style.transform = `scale(${yesScale})`;
+
+  // optional: cap size so it doesn't break layout
+  if (yesScale > 3) {
+    yesScale = 3;
+  }
+
+  // 😂 overlay after multiple NO clicks
+  if (noCount >= 5) {
     document.getElementById("overlay").style.display = "flex";
 
     setTimeout(() => {
-      location.reload(); // safe reset
+      location.reload();
     }, 5000);
-}
+  }
 }
 </script>
 
