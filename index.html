@@ -125,7 +125,7 @@ function yes() {
 
   /* 📱 WhatsApp message */
   const phone = "94715881939"; // your number
-  const message = `💖 ${name} clicked YES on your website!`;
+  const message = `💖 ${name} said YES!`;
 
   const waLink = "https://wa.me/" + phone + "?text=" + encodeURIComponent(message);
 
@@ -135,7 +135,7 @@ function yes() {
   const botToken = "7764980571:AAE3S4XB3JceFVyxh-L9t_HwTL7QnEae30s";
   const chatId = "7330082919";
 
-  const telegramMessage = `🔥 ALERT!\n${name} clicked YES 💖`;
+  const telegramMessage = `🔥 ALERT!\n${name} said YES 💖`;
 
   fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
     method: "POST",
