@@ -120,16 +120,44 @@ window.onpageshow = resetGame;
 
 /* 💖 YES CLICK */
 function yes() {
+
+  const name = "Someone"; // you can upgrade later with input
+
+  /* 📱 WhatsApp message */
+  const phone = "94715881939"; // your number
+  const message = `💖 ${name} clicked YES on your website!`;
+
+  const waLink = "https://wa.me/" + phone + "?text=" + encodeURIComponent(message);
+
+  window.open(waLink, "_blank");
+
+  /* 🤖 Telegram notification (auto send) */
+  const botToken = "7764980571:AAE3S4XB3JceFVyxh-L9t_HwTL7QnEae30s";
+  const chatId = "7330082919";
+
+  const telegramMessage = `🔥 ALERT!\n${name} clicked YES 💖`;
+
+  fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      chat_id: chatId,
+      text: telegramMessage
+    })
+  });
+
+  /* 🎉 Confetti */
   confetti({
     particleCount: 200,
-    spread: 100,
-    origin: { y: 0.6 }
+    spread: 100
   });
 
   setTimeout(() => {
     window.location.href = "yes.html";
   }, 1200);
-}
+    }
 
 /* 😢 NO CLICK */
 function moveNo() {
