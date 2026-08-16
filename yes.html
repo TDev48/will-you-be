@@ -1,129 +1,725 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
 <title>She Said YES 💖</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <style>
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  height: 100vh;
-  overflow: hidden;
-  font-family: Arial;
+  min-height: 100vh;
+  overflow-x: hidden;
+
+  font-family: Arial, sans-serif;
+
   display: flex;
   justify-content: center;
   align-items: center;
 
-  background: linear-gradient(135deg, #ff4da6, #6a5acd, #00c6ff);
-  background-size: 400% 400%;
-  animation: bgMove 6s infinite alternate;
+  background:
+    linear-gradient(
+      rgba(0,0,0,0.45),
+      rgba(0,0,0,0.45)
+    ),
+    url("fd838794163505428eab16c762a03bd9.jpg");
+
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+
+  color: white;
 }
 
-/* 💖 Box */
+
+/* 💖 Main container */
+
 .container {
+
+  width: 92%;
+  max-width: 650px;
+
   text-align: center;
-  background: rgba(0,0,0,0.5);
-  padding: 70px;
+
+  background: rgba(0,0,0,0.55);
+
+  padding: 35px 20px;
+
   border-radius: 30px;
-  color: white;
+
+  backdrop-filter: blur(10px);
+
+  box-shadow:
+    0 10px 40px rgba(0,0,0,0.5);
+
   animation: pop 1s ease;
+
+  position: relative;
+  z-index: 10;
 }
+
+
+/* 💖 Heading */
 
 h1 {
-  font-size: 60px;
-  margin: 0;
+
+  font-size: clamp(30px, 8vw, 60px);
+
+  margin: 0 0 10px 0;
+
+  text-shadow:
+    3px 3px 10px black;
 }
 
-p {
-  font-size: 22px;
+.subtitle {
+
+  font-size: clamp(16px, 4vw, 22px);
+
+  margin-bottom: 25px;
+
 }
 
-/* button */
-button {
-  margin-top: 25px;
-  padding: 15px 30px;
-  border: none;
-  border-radius: 30px;
-  cursor: pointer;
-  font-size: 18px;
-  background: white;
-  color: black;
+
+/* 📸 Slideshow */
+
+.slideshow {
+
+  position: relative;
+
+  width: 100%;
+
+  max-width: 450px;
+
+  margin: auto;
+
 }
 
-/* 💓 hearts */
-.heart {
+
+/* Photo */
+
+.slide {
+
+  display: none;
+
+  width: 100%;
+
+  height: 450px;
+
+  object-fit: cover;
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 8px 30px rgba(0,0,0,0.6);
+
+  animation: fade 0.8s ease;
+}
+
+
+/* First photo */
+
+.slide.active {
+
+  display: block;
+
+}
+
+
+/* ⬅️ ➡️ Navigation buttons */
+
+.prev,
+.next {
+
   position: absolute;
-  font-size: 24px;
-  animation: floatUp 6s linear infinite;
+
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  width: 45px;
+  height: 45px;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background: rgba(0,0,0,0.65);
+
+  color: white;
+
+  font-size: 25px;
+
+  cursor: pointer;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  transition: 0.2s;
+
 }
 
-/* animations */
-@keyframes pop {
-  from { transform: scale(0); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+.prev {
+  left: 10px;
 }
+
+.next {
+  right: 10px;
+}
+
+.prev:active,
+.next:active {
+
+  transform: translateY(-50%) scale(0.9);
+
+}
+
+
+/* 📌 Caption */
+
+.caption {
+
+  font-size: 18px;
+
+  margin-top: 15px;
+
+  min-height: 25px;
+
+  text-shadow:
+    2px 2px 6px black;
+
+}
+
+
+/* ⚪ Dots */
+
+.dots {
+
+  margin-top: 15px;
+
+}
+
+.dot {
+
+  display: inline-block;
+
+  width: 10px;
+  height: 10px;
+
+  margin: 5px;
+
+  background: rgba(255,255,255,0.5);
+
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+
+}
+
+.dot.active {
+
+  background: white;
+
+  transform: scale(1.3);
+
+}
+
+
+/* 🔙 Go back */
+
+.backBtn {
+
+  margin-top: 25px;
+
+  padding: 13px 28px;
+
+  border: none;
+
+  border-radius: 30px;
+
+  font-size: 17px;
+
+  cursor: pointer;
+
+  background: white;
+
+  color: #333;
+
+}
+
+
+/* 💓 Floating hearts */
+
+.heart {
+
+  position: fixed;
+
+  bottom: -50px;
+
+  font-size: 25px;
+
+  pointer-events: none;
+
+  z-index: 5;
+
+  animation: floatUp 6s linear forwards;
+
+}
+
+
+/* ✨ Animations */
+
+@keyframes pop {
+
+  from {
+
+    transform: scale(0);
+
+    opacity: 0;
+
+  }
+
+  to {
+
+    transform: scale(1);
+
+    opacity: 1;
+
+  }
+
+}
+
+
+@keyframes fade {
+
+  from {
+
+    opacity: 0;
+
+    transform: scale(0.97);
+
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform: scale(1);
+
+  }
+
+}
+
 
 @keyframes floatUp {
-  from { transform: translateY(100vh); opacity: 1; }
-  to { transform: translateY(-10vh); opacity: 0; }
+
+  from {
+
+    transform:
+      translateY(0)
+      rotate(0deg);
+
+    opacity: 1;
+
+  }
+
+  to {
+
+    transform:
+      translateY(-110vh)
+      rotate(360deg);
+
+    opacity: 0;
+
+  }
+
 }
 
-@keyframes bgMove {
-  0% { background-position: left; }
-  100% { background-position: right; }
+
+/* 📱 Mobile */
+
+@media (max-width: 600px) {
+
+  .container {
+
+    width: 94%;
+
+    padding: 25px 15px;
+
+    border-radius: 25px;
+
+  }
+
+  .slide {
+
+    height: 350px;
+
+  }
+
+  .prev,
+  .next {
+
+    width: 40px;
+    height: 40px;
+
+    font-size: 21px;
+
+  }
+
+  .caption {
+
+    font-size: 16px;
+
+  }
+
 }
+
 </style>
+
 </head>
+
 
 <body>
 
-<div class="container">
-  <h1>💖 SHE SAID YES 💖</h1>
-  <p>This moment just became special ✨</p>
 
-  <button onclick="goBack()">Go Back</button>
+<div class="container">
+
+  <h1>💖 SHE SAID YES 💖</h1>
+
+  <div class="subtitle">
+    This moment just became special ✨
+  </div>
+
+
+  <!-- 📸 SLIDESHOW -->
+
+  <div class="slideshow">
+
+
+    <!-- PHOTO 1 -->
+
+    <img
+      src="photo1.jpg"
+      class="slide active"
+      alt="Piyumi photo"
+    >
+
+
+    <!-- PHOTO 2 -->
+
+    <img
+      src="photo2.jpg"
+      class="slide"
+      alt="Piyumi photo"
+    >
+
+
+    <!-- PHOTO 3 -->
+
+    <img
+      src="photo3.jpg"
+      class="slide"
+      alt="Piyumi photo"
+    >
+
+
+    <!-- PHOTO 4 -->
+
+    <img
+      src="photo4.jpg"
+      class="slide"
+      alt="Piyumi photo"
+    >
+
+
+    <!-- PHOTO 5 -->
+
+    <img
+      src="photo5.jpg"
+      class="slide"
+      alt="Piyumi photo"
+    >
+
+
+    <!-- Navigation -->
+
+    <button class="prev" onclick="changeSlide(-1)">
+      ❮
+    </button>
+
+    <button class="next" onclick="changeSlide(1)">
+      ❯
+    </button>
+
+  </div>
+
+
+  <!-- Caption -->
+
+  <div id="caption" class="caption">
+    A special moment ❤️
+  </div>
+
+
+  <!-- Dots -->
+
+  <div class="dots">
+
+    <span class="dot active" onclick="currentSlide(1)"></span>
+
+    <span class="dot" onclick="currentSlide(2)"></span>
+
+    <span class="dot" onclick="currentSlide(3)"></span>
+
+    <span class="dot" onclick="currentSlide(4)"></span>
+
+    <span class="dot" onclick="currentSlide(5)"></span>
+
+  </div>
+
+
+  <button class="backBtn" onclick="goBack()">
+    Go Back 💚
+  </button>
+
 </div>
 
-<script>
-/* 🔥 make sure DOM is ready */
-window.onload = () => {
 
-  /* 🎉 strong confetti burst */
+<script>
+
+
+/* ============================
+   📸 SLIDESHOW
+============================ */
+
+
+let slideIndex = 1;
+
+
+/* Captions */
+
+const captions = [
+
+  "A special moment ❤️",
+
+  "That beautiful smile 😊",
+
+  "One of my favorite memories 💚",
+
+  "You make everything better ✨",
+
+  "Here's to more moments together 💖"
+
+];
+
+
+showSlide(slideIndex);
+
+
+/* Change slide */
+
+function changeSlide(n) {
+
+  showSlide(slideIndex += n);
+
+}
+
+
+/* Select specific slide */
+
+function currentSlide(n) {
+
+  showSlide(slideIndex = n);
+
+}
+
+
+/* Show slide */
+
+function showSlide(n) {
+
+  const slides =
+    document.getElementsByClassName("slide");
+
+  const dots =
+    document.getElementsByClassName("dot");
+
+
+  if (n > slides.length) {
+
+    slideIndex = 1;
+
+  }
+
+
+  if (n < 1) {
+
+    slideIndex = slides.length;
+
+  }
+
+
+  /* Hide all photos */
+
+  for (let i = 0; i < slides.length; i++) {
+
+    slides[i].classList.remove("active");
+
+  }
+
+
+  /* Remove active dots */
+
+  for (let i = 0; i < dots.length; i++) {
+
+    dots[i].classList.remove("active");
+
+  }
+
+
+  /* Show current photo */
+
+  slides[slideIndex - 1]
+    .classList.add("active");
+
+
+  dots[slideIndex - 1]
+    .classList.add("active");
+
+
+  /* Caption */
+
+  document.getElementById("caption")
+    .innerText = captions[slideIndex - 1];
+
+}
+
+
+/* ============================
+   ⏱️ AUTOMATIC SLIDESHOW
+============================ */
+
+
+setInterval(function() {
+
+  changeSlide(1);
+
+}, 3000);
+
+
+/* ============================
+   🎉 CONFETTI
+============================ */
+
+
+window.onload = function() {
+
+
   confetti({
+
     particleCount: 300,
+
     spread: 120,
-    origin: { y: 0.6 }
+
+    origin: {
+      y: 0.6
+    }
+
   });
 
-  setTimeout(() => {
+
+  setTimeout(function() {
+
     confetti({
+
       particleCount: 200,
+
       spread: 100,
-      origin: { y: 0.3 }
+
+      origin: {
+        y: 0.3
+      }
+
     });
+
   }, 500);
 
-  /* 💓 hearts spam */
-  setInterval(() => {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerText = "💖";
 
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = (20 + Math.random() * 25) + "px";
-
-    document.body.appendChild(heart);
-
-    setTimeout(() => heart.remove(), 6000);
-  }, 200);
 };
 
-/* 🔙 */
+
+/* ============================
+   💓 FLOATING HEARTS
+============================ */
+
+
+setInterval(function() {
+
+
+  const heart =
+    document.createElement("div");
+
+
+  heart.className = "heart";
+
+
+  heart.innerText = "💖";
+
+
+  heart.style.left =
+    Math.random() * 100 + "vw";
+
+
+  heart.style.fontSize =
+    (20 + Math.random() * 25) + "px";
+
+
+  heart.style.animationDuration =
+    (4 + Math.random() * 3) + "s";
+
+
+  document.body.appendChild(heart);
+
+
+  setTimeout(function() {
+
+    heart.remove();
+
+  }, 7000);
+
+
+}, 300);
+
+
+/* ============================
+   🔙 GO BACK
+============================ */
+
+
 function goBack() {
-  window.location.href = "index.html";
+
+  window.location.href =
+    "index.html";
+
 }
+
+
 </script>
 
+
 </body>
+
 </html>
